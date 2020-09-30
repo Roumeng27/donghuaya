@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function a() {
+        console.log('sss')
+        return new Promise((r, j) => {
+            console.log('p')
+            setTimeout(() => {
+                console.log('setTimeout')
+            }, 0)
+            r();
+            j()
+        })
+
+    }
+    a().then(() => {
+        console.log('t')
+    }).catch(() => {
+        console.log('c')
+    })
+
+
+    var a = [1, 2, 3, 4, 5]
+    var b = [3, 4, 5]
+    // 交集
+    let c = a.filter(function (val) { return b.indexOf(val) > -1 })
+    console.log(c)
+
+    // 三题
+    var obj = { name: 'dddd' };
+    var b = JSON.parse(JSON.stringify(obj))
+
+    // 防抖函数
+    function debounce(func, wait) {
+        let timer;
+        return function () {
+            let context = this; // 注意 this 指向
+            let args = arguments; // arguments中存着e
+
+            if (timer) clearTimeout(timer);
+
+            timer = setTimeout(() => {
+                func.apply(this, args)
+            }, wait)
+        }
+    }
+    //试用方法，
+    // let content = document.getElementById('aaa')
+    // content.onmousemove = debounce(aa, 1000);
+    // var aa = function () { }
+
+    // 计算rem
+    function setRem() {
+        const html = document.querySelector('html')
+        const { width } = html.getBoundingClientRect()
+        html.style.fontSize = `${width / 7.5}px`
+    }
+    setRem()
+    window.addEventListener('resize', setRem)
+
+
+
+    //写成树状json
+    var arr = [
+        {
+            id:1,
+            name:'祖宗',
+            pid:0
+        },
+        {
+            id:2,
+            name:'爷爷',
+            pid:1
+        },
+        {
+            id:3,
+            name:'爸爸',
+            pid:2
+        },
+        {
+            id:4,
+            name:'伯伯',
+            pid:2
+        },
+        {
+            id:5,
+            name:'家辉',
+            pid:3
+        },
+        {
+            id:6,
+            name:'小军',
+            pid:4
+        },
+    ]
+    var toJson = function(tarArray){
+        
+        // var obj = {};
+        // //第一步 把每个人挂在到对象上，脑门贴个自己的标（id）
+        // tarArray.map((item,index) =>{
+        //     obj[item.id] = item;
+        // })
+        // console.log(obj);
+
+        // 上面的步骤不要了，他们的目的 就是为了 var parent = obj[item.pid] 找父节点方便；
+
+        //第二部遍历找爹,去大街上(obj)挨着找，看看谁家大门上贴着爹的id呢
+        var newArray = [];//创建族谱
+        for(let i=0;i<tarArray.length;i++){
+            var item = tarArray[i];
+            //这里换一种方式
+            // var parent = obj[item.pid];
+
+            // 找爹
+            var parent = {};
+            for(let j=0;j<tarArray.length;j++){
+                var itemb = tarArray[j];
+                if(itemb.id == item.pid){
+                    parent = itemb;
+                    break;
+                }
+            }
+            //发现爹了
+            if(parent.id){
+                //看看爹上有没有家，有家就直接进去
+                if(parent.children){
+                    parent.children.push(item);
+                }else{
+                ///没家就创建一个家
+                    parent.children = [];
+                    parent.children.push(item);
+                }
+            //这里没找到爹，说明自己就是祖宗，没上级，所有的都是子孙，把自己放到族谱上
+            }else{
+                newArray.push(item);
+            }
+        }
+        console.log(newArray)
+    }
+    toJson(arr)
+    
+    
+    //===
+    // 将一个扁平化的对象数组，转化为树形结构
+// 现在有一个对象组成的数组，每个元素有id属性和parent_id属性，根据其id属性和parent_id属性，将其转换为树结构的对象
+const arrTree = [
+   {
+       id: '1',
+       parent_id: 'root',
+       name:'abc'
+   },
+   {
+       id: '2',
+       parent_id: 'root',
+       name:'abc'
+   },
+   {
+       id: '1-1',
+       parent_id: '1',
+       name:'abc'
+   },
+   {
+       id: '1-2',
+       parent_id: '1',
+       name:'abc'
+   },
+   {
+       id: '1-1-1',
+       parent_id: '1-1',
+       name:'abc'
+   },
+   {
+       id: '1-1-2',
+       parent_id: '1-1',
+       name:'abc'
+   },
+   {
+       id: '1-2-1',
+       parent_id: '1-2',
+       name:'abc'
+   },
+   {
+       id: '2-1',
+       parent_id: '2',
+       name:'abc'
+   },
+   {
+       id: '2-2',
+       parent_id: '2',
+       name:'abc'
+   },
+   {
+       id: '2-1-1',
+       parent_id: '2-1',
+       name:'abc'
+   },
+   {
+       id: '2-2-1',
+       parent_id: '2-2',
+       name:'abc'
+   },
+   {
+       id: '2-2-1-1',
+       parent_id: '2-2-1',
+       name:'abc'
+   },
+   {
+       id: '2-2-1-2',
+       parent_id: '2-2-1',
+       name:'abc'
+   },
+    {
+       id: '2-2-1-2-1',
+       parent_id: '2-2-1-2',
+       name:'abc'
+   },
+   {
+       id: '2-3',
+       parent_id: '2',
+       name:'abc'
+   },
+   {
+       id: '2-3-1',
+       parent_id: '2-3',
+       name:'abc'
+   },
+   {
+       id: '3',
+       parent_id: 'root',
+       name:'abc'
+   },   
+];
+
+// 将这样一个数组，变成能够以树形展示的对象
+
+//先将数组中的每一个节点放到temp对象中（创建set）
+//即数组中有{id: '2-3', parent_id: '2',...}这样一个节点，需要将他放到temp中变成 '2-3': {id: '2-3', parent_id: '2',...}这种JSON结构
+//直接遍历整个temp对象，通过这句代码   temp[temp[i].parent_id].children[temp[i].id] = temp[i];  
+//将当前子节点与父节点建立连接。是因为我们保证了父节点一定在子节点前，
+//那么当子节点出现的时候就直接可以用temp[temp[i].parent_id]来查找到父节点这个时候先父节点的children对象中添加一个引用即可。
+
+
+function buildTree(array,id,parent_id) {
+    var temp = {}
+    var tree = {}
+    for(let i in array){
+    	temp[array[i][id]] = array[i]
+    }
+    for(let j in temp){
+    	if(temp[j][parent_id] !== 'root'){
+    		if(!temp[temp[j][parent_id]].children){
+    			temp[temp[j][parent_id]].children = new Array()
+    		}
+    		temp[temp[j][parent_id]].children.push(temp[j])
+    	}else{
+    		tree[temp[j][id]] = temp[j];
+    	}
+    }
+    
+    return tree
+}
+var obj1 = buildTree(arrTree,'id','parent_id')
+console.log(obj1)
+</script>
+
+</html>

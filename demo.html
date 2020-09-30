@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+    //第一种场景，如果向后台提交的数据中有比16 大的 则不允许提交
+    var arr = [
+        {
+            age:18
+        },
+        {
+            age:16
+        },
+        {
+            age:14
+        }
+    ]
+    var flag = arr.findIndex((item)=>{ 
+    	
+        //检测条件 返回符合条件的元素下标，如果便利到最后没有符合的则返回-1
+        // return item.age == 25;
+        return item.age > 16;
+     })
+     //-1则数组中没有 不为-1则有
+     console.log(flag)
+	if(flag > -1) {
+		//执行接下来的操作
+	}
+	
+     //第二种场景 如果向后台提交的数据中每一项的值都必须大于15
+    //  JS中every()和some()的用法
+    // every()与some()方法都是JS中数组的迭代方法。
+
+    // every()是对数组中每一项运行给定函数，如果该函数对每一项返回true,则返回true。
+
+    // some()是对数组中每一项运行给定函数，如果该函数对任一项返回true，则返回true。
+     var min_num = arr.every((item)=>{ return item.age >= 15 });
+     //这里输出的是true说明每一项都比15大
+     console.log(min_num)
+     //上面数组再加一个 age:14再试试呢
+     const arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+	var ret1 = arr1.find((value, index, arr) => {
+	  return value > 4
+	})
+	
+	var ret2 = arr1.find((value, index, arr) => {
+	  return value > 14
+	})
+	console.log(ret1) // 5
+	console.log(ret2) // undefined
+	var ret3 = arr1.findIndex((value, index, arr) => {
+	  return value > 4
+	})
+	
+	var ret4 = arr1.findIndex((value, index, arr) => {
+	  return value > 14
+	})
+	console.log(ret3) // 4
+	console.log(ret4) // -1
+	
+	let ee = [[12,3,45,6],[7,88],[9]].reduce((prev,next)=>{
+		return prev.concat(next);
+	})
+	console.log(ee)
+	//[12,3,45,6,7,88,9]
+
+</script>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var data = [
+        {
+            AreaCode: "3-150102",
+            AreaName: "新城区",
+            RiskLevel: "1",
+            StoreNum: "150"
+        },
+        { AreaCode: "3-150102", AreaName: "新城区", RiskLevel: "2", StoreNum: "29" },
+        { AreaCode: "3-150102", AreaName: "新城区", RiskLevel: "3", StoreNum: "5840" },
+        { AreaCode: "3-150103", AreaName: "回民区", RiskLevel: "1", StoreNum: "1" },
+        { AreaCode: "3-150103", AreaName: "回民区", RiskLevel: "3", StoreNum: "37" },
+        { AreaCode: "3-150104", AreaName: "玉泉区", RiskLevel: "3", StoreNum: "73" },
+        { AreaCode: "3-150105", AreaName: "赛罕区", RiskLevel: "1", StoreNum: "59" },
+        { AreaCode: "3-150105", AreaName: "赛罕区", RiskLevel: "2", StoreNum: "22" },
+        { AreaCode: "3-150105", AreaName: "赛罕区", RiskLevel: "3", StoreNum: "6558" },
+        { AreaCode: "3-150121", AreaName: "土默特左旗", RiskLevel: "3", StoreNum: "72" },
+        { AreaCode: "3-150122", AreaName: "托克托县", RiskLevel: "3", StoreNum: "28" },
+        { AreaCode: "3-150123", AreaName: "和林格尔县", RiskLevel: "3", StoreNum: "38" },
+        { AreaCode: "3-150124", AreaName: "清水河县", RiskLevel: "3", StoreNum: "22" },
+        { AreaCode: "3-150125", AreaName: "武川县", RiskLevel: "3", StoreNum: "32" },
+        { AreaCode: "3-150126", AreaName: "开发区", RiskLevel: "3", StoreNum: "42" }];
+
+    function flutterData(arr) {
+        var obj = {};
+        var firstArr = [], secondArr = [], sanArr = [], siArr = [];
+        for (let i = 0; i < data.length; i++) {
+            var item = data[i];
+            //如果身上有
+            if (obj[item.AreaName]) {
+                obj[item.AreaName].areaArr.push(item);
+                obj[item.AreaName].allNum += +item.StoreNum;
+            } else {
+                //没有
+                var chelidObj = {
+                    areaArr: [item],
+                    allNum: +item.StoreNum
+                };
+                obj[item.AreaName] = chelidObj;
+            }
+        }
+        console.log(obj)
+        //这是你第一个数组
+        firstArr = Object.keys(obj);
+//      console.log("1", firstArr);
+        //第二个
+        var middle = Object.values(obj);
+        console.log(middle)
+        var reskObj = {
+            '1': [],
+            "2": [],
+            '3': []
+        };
+        middle.map((item, index) => {
+            secondArr.push(item.allNum);
+            var reskLevel = item.areaArr;
+            for (let i = 0; i < reskLevel.length; i++) {
+                var items = reskLevel[i];
+                item[items.RiskLevel] = items.StoreNum;
+            }
+
+            if (!item['1']) {
+                item['1'] = 0
+            }
+            if (!item['2']) {
+                item['2'] = 0
+            }
+            if (!item['3']) {
+                item['3'] = 0
+            }
+
+            secondArr.push(item['1']);
+            sanArr.push(item['2']);
+            siArr.push(item['3']);
+        })
+//      console.log("2", secondArr);
+//      console.log("3", sanArr);
+//      console.log("4", siArr);
+        var newObj = {
+            firstArr,secondArr,sanArr,siArr
+        }
+        return newObj
+    }
+//  console.log(flutterData(data))
+    
+    
+	//this指针指向
+	/*1、全局作用域下*/
+	console.log(this,11)
+	/*2、普通函数作用域下*/
+	function a(){
+		console.log(this,22)
+	}
+	a()
+	/*3、构造函数*/
+	function A(name){
+		this.name = name
+		console.log(this,33)
+	}
+	var a = new A('小明')
+	/*4、箭头函数*/
+	var objs = {
+		name:'lemon',
+		play:function(){
+			console.log(this,44)
+			var sex = ()=>{
+				console.log(this,55)
+			}
+			sex()
+		}
+	}
+	objs.play()
+	/*this指向*/
+	var aaa = 20;
+    var obb = {
+        aaa: 10,
+        c: this.aaa + 20,
+        fn: function () {
+            return this.aaa;
+        }
+    }
+ 
+    console.log(obb.c);//返回40
+    console.log(obb.fn());//返回10
+	var ass = obb.fn;
+	console.log(ass())//返回20
+	
+	//this指针是由系统自动提供的指向对象的特殊指针。是一个隐含于每一个成员函数中的特殊指针，指向正在被该团员函数操作的那个对象。
+</script>
+
+</html>

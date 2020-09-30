@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 引入组件库 -->
+
+    <title>Document</title>
+    <style>
+    
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        /* 这里到下面是打印的样式 */
+        .box {
+            width: 200px;
+            height: 400px;
+            text-align: center;
+            color: red;
+            position: relative;
+            /* background: url("https://graphic-module.oss-cn-beijing.aliyuncs.com/21223addConent/2020-8-26-13%3A23%3A46%3A/372677b798d5e0b33eef91cf4d2d157fd_r.jpg") no-repeat left center; */
+        }
+        .shangcengBox{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 6;
+        }
+        .dicengBox{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 5;
+        }
+        .dicengBox img{
+            width: 200px;
+            height: 400px;
+        }
+        /* 这个样式是打印的样式，打印的东西会走这里的样式 */
+        @media print {
+            @page {
+                size: 10cm 15cm;
+                size: portrait;
+                margin: 0;
+            }
+            
+            .box {
+                width: 200px;
+                height: 150px;
+                text-align: center;
+                color: yellow;
+                /* background: url("https://graphic-module.oss-cn-beijing.aliyuncs.com/21223addConent/2020-8-26-13%3A23%3A46%3A/372677b798d5e0b33eef91cf4d2d157fd_r.jpg") no-repeat left center; */
+            }
+            .shangcengBox{
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 6;
+            }
+            .dicengBox{
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 5;
+            }
+            .dicengBox img{
+                width: 200px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <button onclick="dayin()">3D打印</button>
+    <div id="outbox">
+        <div class="box">
+            <div class="shangcengBox"> 打印了个锤子啊</div>
+            <div class="dicengBox">
+                <img class="img"
+                src="https://graphic-module.oss-cn-beijing.aliyuncs.com/21223addConent/2020-8-26-13%3A23%3A46%3A/372677b798d5e0b33eef91cf4d2d157fd_r.jpg"
+                alt="">
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://static.edu.adasplus.com/js/jquery.min.js"></script>
+<script>
+    function doPrint2() {
+        if (getExplorer() == "IE") {
+            pagesetup_null();
+        }
+        // 根据div标签ID拿到div中的局部内容
+        bdhtml = window.document.body.innerHTML;
+        var jubuData = document.getElementById("outbox").innerHTML;
+        //把获取的 局部div内容赋给body标签, 相当于重置了 body里的内容
+        window.document.body.innerHTML = jubuData;
+        //调用打印功能
+        window.print();
+        window.document.body.innerHTML = bdhtml;//重新给页面内容赋值；
+        return false;
+    }
+    //判断是不是IE浏览器
+    function getExplorer() {
+        var explorer = window.navigator.userAgent;
+        //ie 
+        if (explorer.indexOf("MSIE") >= 0) {
+            return "IE";
+        }
+        //firefox 
+        else if (explorer.indexOf("Firefox") >= 0) {
+            return "Firefox";
+        }
+        //Chrome
+        else if (explorer.indexOf("Chrome") >= 0) {
+            return "Chrome";
+        }
+        //Opera
+        else if (explorer.indexOf("Opera") >= 0) {
+            return "Opera";
+        }
+        //Safari
+        else if (explorer.indexOf("Safari") >= 0) {
+            return "Safari";
+        }
+    }
+    function dayin() {
+        doPrint2();
+    }
+</script>
+
+</html>
